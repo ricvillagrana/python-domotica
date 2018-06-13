@@ -10,7 +10,7 @@ class Temperature:
         psql = conn.cursor()
         now = datetime.datetime.now()
         try:
-            #print("Insertando tu dato: {0}".format(new_temperature) )
+            print("Insertando tu dato: {0}".format(new_temperature) )
             psql.execute("INSERT INTO {0} (temperature, created_at) VALUES({1}, '{2}')".format("temperature_logs", new_temperature, now))
             conn.commit()
         except:

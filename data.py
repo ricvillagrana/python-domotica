@@ -34,7 +34,7 @@ class Data:
         for row in psql.fetchall():
             print("-------------------------------------------------")
             print("Perfil: " + str(row[6]) + " (" + str(row[8]) + ")")
-            #print("Descripción: " + str(row[7]))
+            print("Fecha: " + str(row[9]) + " a las " + str(row[10]) )
             print("relay: " + str(row[3] < now and row[4] > now))
             print("relay_main: " + str(row[1] < now and row[2] > now))
             print("temperature_ideal: " + str(row[5]))

@@ -10,30 +10,44 @@ time_to_wait = 1.8
 
 # Values from Raspberry
 data = {}
-data['relay'] = False;
-data['relay_main'] = False;
-data['temperature'] = 23;
+data['relay'] = False
+data['relay_main'] = False
+data['temperature'] = 23
+temperature_real = 0
+
+c = 0
 
 def split_serial_values (string):
     data = str(string).split("'")[1]
     data = str(data).split("\\")[0]
     #values = list(filter(None, data))
     variable = data.split(':')[1]
-    print(variable)
+    temperature_real = variable
+    
+    global c
+    c += 0.5
+    if(c >= 10):
+        Temperature.add(temperature_real)
+        print(temperature_real)
+        c = 0
+    Temperature.log_realtime
+    print(c)
+    print(temperature_real)
+    
 
 def send_serial ():
-    if(data['relay']):
-        Serial.write("relay_on:".encode())
-        print("relay_on")
-    else:
-        Serial.write("relay_off:".encode())
-        print("relay_off")
     if(data['relay_main']):
         Serial.write("relay_main_on:".encode())
         print("relay_main_on")
     else:
         Serial.write("relay_main_off:".encode())
         print("relay_main_off")
+    if(data['relay']):
+        Serial.write("relay_on:".encode())
+        print("relay_on")
+    else:
+        Serial.write("relay_off:".encode())
+        print("relay_off")
     temp = ("temperature: " + str(data['temperature']))
     Serial.write(temp.encode())
 
@@ -48,9 +62,7 @@ time.sleep(time_to_wait)
 # Serial.write(flagCharacter)
 
 
-while True:
-    
-    #Temperature.add(arduino['temperature'])
+while True:    
     #Temperature.log_realtime()
 
     db_data = Data.get()
